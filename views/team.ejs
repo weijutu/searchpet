@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <%- include ./partials/metadata.ejs %>
+    <%- include ./partials/style.ejs %>
+    <title>關於團隊</title>
+
+</head>
+<body>
+    <%- include ./partials/navbar.ejs %>
+    <div class="container">
+<!-- Introduction Row -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">有關於「<%=appName %>」
+            <small>構想的起源</small>
+        </h1>
+        <p>致力於幫助走失的寵物找到回家的路，拾獲人會進入到系統將寵物資訊貼文於系統，拾獲人可能會將寵物送到相關機構尋求協助，並且留下聯絡資訊</p>
+    </div>
+</div>
+
+<!-- Team Members Row -->
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">資料庫專案團隊</h2>
+    </div>
+    <div class="col-lg-3 col-sm-6 text-center">
+        <img class="img-circle img-responsive img-center" src="/images/124433.jpg" alt="">
+        <h3>杜瑋茹
+            <small>組長</small>
+        </h3>
+        <p>N044020012</p>
+    </div>
+    <div class="col-lg-3 col-sm-6 text-center">
+        <img class="img-circle img-responsive img-center" src="/images/124442.jpg" alt="">
+        <h3>黃信培
+            <small>組員</small>
+        </h3>
+        <p>N044020013</p>
+    </div>
+    <div class="col-lg-3 col-sm-6 text-center">
+        <img class="img-circle img-responsive img-center" src="/images/126448.jpg" alt="">
+        <h3>薛文奇
+            <small>組員</small>
+        </h3>
+        <p>M10423461005</p>
+    </div>
+    <div class="col-lg-3 col-sm-6 text-center">
+        <img class="img-circle img-responsive img-center" src="/images/126451.jpg" alt="">
+        <h3>鐘明志
+            <small>組員</small>
+        </h3>
+        <p>M10423461004</p>
+    </div>
+</div>
+
+<hr>
+
+<!-- Footer -->
+<%- include ./partials/footer.ejs %>
+</div>
+
+    <!-- jQuery -->
+    <script src="/assets/vendor/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/assets/vendor/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
