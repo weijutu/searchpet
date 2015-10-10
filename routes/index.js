@@ -8,5 +8,8 @@ router.get('/', function(req, res, next) {
 router.get('/team', function(req, res, next) {
   res.render('team', { layout: 'layout.ejs' });
 });
+router.get('/animals', function(req, res, next) {
+  res.render('animals', { layout: 'layout.ejs' });
+});
 
 module.exports = router;
