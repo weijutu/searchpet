@@ -9,6 +9,7 @@ var expressLayouts = require('express-ejs-layouts');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var config = require('./settings/auth.js');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -50,6 +51,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({ secret: 'search pet', key: 'pets'}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(function(req, res, next){
   var config = utils.getConfig();
   res.locals = {
@@ -68,6 +72,47 @@ app.use('/users', users);
 app.use('/auth', auth);
 app.use('/admin', admin);
 app.use('/animals', animals);
+
+
+//Passport Router
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { 
+       successRedirect : '/', 
+       failureRedirect: '/auth/login' 
+  }),
+  function(req, res) {
+    res.redirect('/');
+  });
+app.get('/auth/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/auth/login');
+}
+
+// Use the FacebookStrategy within Passport.
+passport.use(new FacebookStrategy({
+    clientID: config.facebookAuth.facebook_api_key,
+    clientSecret:config.facebookAuth.facebook_api_secret ,
+    callbackURL: config.facebookAuth.callback_url
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log('fb accessToken:', accessToken);
+    process.nextTick(function () {
+      return done(null, profile);
+    });
+  }
+));
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
