@@ -11,4 +11,8 @@ router.get('/register', function(req, res, next) {
   res.render('auth/register', { user: req.user });
 });
 
+router.get('/profile', function(req, res, next) {
+  res.render('auth/profile', { user: req.user, title: '基本資料維護' });
+});
+
 module.exports = router;
