@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -23,28 +24,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
     next();
 });
-app.use(session({
-    secret: 'searchpet@isgood', 
-    saveUninitialized: true, 
-    resave: true})
-);
+// app.use(session({
+//     secret: 'searchpet@isgood', 
+//     saveUninitialized: true, 
+//     resave: true})
+// );
 app.use(function(req, res, next){
   var config = utils.getConfig();
   res.locals = {

@@ -10,6 +10,23 @@
             </button>
             <a class="navbar-brand page-scroll" href="/"><%=appName %></a>
         </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+            <li><a href="/auth/profile">基本資料維護</a></li>
+            <!-- <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li> -->
+          </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -18,14 +35,13 @@
                     <a class="page-scroll" href="/team">關於團隊</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="/animals">尋找毛小孩</a>
+                    <a class="page-scroll" href="/animals">尋找我的毛小孩</a>
                 </li>
-                <li>
-                    <a class="page-scroll" href="/auth/login">登入</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="/admin">管理者介面</a>
-                </li>
+                <% if(!user) { %>
+                <li><a class="page-scroll" href="/auth/login">登入</a></li>
+                <% } else { %>
+
+                <% } %>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
