@@ -8,16 +8,13 @@ var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var config = require('./settings/auth');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
 var admin = require('./routes/admin');
-var animals = require('./routes/animals');
-var upload = require('./routes/upload');
 var utils = require('./settings/utils.js');
+// var config = utils.getConfig();
 
 var app = express();
 
@@ -26,13 +23,28 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
     next();
 });
-//http://localhost:3000/auth/facebook/callback?code=AQCje8XrM6UVW9M93bWZ7ft0PYDl9AqsqQc8vTbQt_PizWBn3uPqanotaUgAh0F9_bF8zW5KoTQwxfSJApNyUTDMBFse-KfjbBIuBYj86KwFI6WfgZ7IZADcntYq4u7AmmvZQq1_nFI4kW7y3DpxSCa2KsgT72fWZFmO3hyACf0EIGY7hG23wtAvFoFdD7qgYBwXu-pp_5Y8FekI-_4FVa1dK58kz0rbPFvCzfZXdObpkEEK-fku5LapUt8Wc1wq0Bx9fgq6IvL4pD39zmmghs1kKBODvhMoUNnlxpx4ze6vCwRuOD6JqpDQumFXQ3VEvy4ftW2XdCF1MKe_-pzWUMP2#_=_
+app.use(session({
+    secret: 'searchpet@isgood', 
+    saveUninitialized: true, 
+    resave: true})
+);
 app.use(function(req, res, next){
   var config = utils.getConfig();
   res.locals = {
@@ -41,14 +53,12 @@ app.use(function(req, res, next){
   next();
 });
 
+// uncomment after placing your favicon in /public
+//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({ secret: 'search pet', key: 'spKey'}));
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(function(req, res, next){
   var config = utils.getConfig();
   res.locals = {
@@ -56,52 +66,17 @@ app.use(function(req, res, next){
   };
   next();
 });
-
+// app.use(expressLayouts);
+// app.set('view options', {
+//   layout: false
+// });
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
 app.use('/admin', admin);
-app.use('/animals', animals);
-app.use('/fileupload', upload);
 
-passport.use(new FacebookStrategy({
-      clientID: config.facebookAuth.facebook_api_key,
-      clientSecret:config.facebookAuth.facebook_api_secret ,
-      callbackURL: config.facebookAuth.callback_url
-    },
-    function(accessToken, refreshToken, profile, done) {
-      process.nextTick(function () {
-        //Check whether the User exists or not using profile.id
-        if(config.use_database==='true') {
-           //Further code of Database.
-        }
-        return done(null, profile);
-      });
-    }
-  ));
-
-//Passport Router
-app.get('/auth/facebook', passport.authenticate('facebook'));
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { 
-       successRedirect : '/auth/profile', 
-       failureRedirect: '/auth/login' 
-  }),
-  function(req, res) {
-    res.redirect('/');
-});
-
-passport.serializeUser(function(user, done) {
-   console.log('serializeUser: ', user);
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  console.log('deserializeUser: ', obj);
-  done(null, obj);
-});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -122,7 +97,7 @@ if (app.get('env') === 'development') {
     });
   });
 }
- 
+
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -132,7 +107,6 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 
 module.exports = app;

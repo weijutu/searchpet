@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <%- include ../partials/metadata.ejs %>
-    <%- include ../partials/style.ejs %>
+
+    <%- include ./partials/metadata.ejs %>
+    <%- include ./partials/style.ejs %>
     <title>關於團隊</title>
+
 </head>
 <body>
-    <%- include ../partials/navbar.ejs %>
+    <%- include ./partials/navbar.ejs %>
     <div class="container">
     <!-- Page Header -->
         <div class="row">
@@ -16,11 +19,6 @@
                 </h2>
             </div>
         </div>
-        <ol class="breadcrumb">
-          <li><a href="/">首頁</a></li>
-          <li><a href="#">尋找毛小孩</a></li>
-        </ol>
-        
         <!-- /.row -->
         <!-- <div class="row">
             <form class="navbar-form" role="search">
@@ -122,12 +120,20 @@
             </div>
         </div>
         <!-- /.row -->
+
         <hr>
+    
+
 <!-- Footer -->
-<%- include ../partials/footer.ejs %>
+<%- include ./partials/footer.ejs %>
 </div>
-<script src="/assets/vendor/js/jquery.js"></script>
-<script src="/assets/vendor/js/bootstrap.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="/assets/vendor/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/assets/vendor/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
