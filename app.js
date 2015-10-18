@@ -14,6 +14,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
 var admin = require('./routes/admin');
+var animals = require('./routes/animals');
 var utils = require('./settings/utils.js');
 // var config = utils.getConfig();
 
@@ -66,6 +67,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
 app.use('/admin', admin);
+app.use('/animals', animals);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
