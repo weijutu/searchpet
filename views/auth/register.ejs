@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ../partials/metadata.ejs %>
+    
+    <title>登入</title>
+
+    <%- include ../partials/scripts.ejs %>
+
+    <!-- Custom styles for this template -->
+    <link href="/stylesheets/signin.css" rel="stylesheet">
+    <script src="/assets/vendor/js/ie-emulation-modes-warning.js"></script>
+   
+  </head>
+  <body>
+    <div class="container">
+        <div class="row text-center pad-top ">
+            <div class="col-md-12">
+                <h2>註冊</h2>
+            </div>
+        </div>
+        <div class="row  pad-top">
+          <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <strong>   註冊「毛小孩走失協尋」系統 </strong>  
+              </div>
+              <div class="panel-body">
+                  <form role="form">
+                    <div class="panel-body">
+                      <a class="btn btn-block btn-lg btn-social btn-facebook" href="/auth/facebook">
+                        <i class="fa fa-facebook"></i> 使用 Facebook 註冊
+                      </a>
+                      <div style="text-align:center">or</div>
+                      <div class="form-group input-group">
+                          <span class="input-group-addon">
+                            <i class="fa fa-circle-o-notch"></i>
+                          </span>
+                          <input type="text" class="form-control" placeholder="姓名" />
+                      </div>
+                       <div class="form-group input-group">
+                          <span class="input-group-addon">@</span>
+                          <input type="text" class="form-control" placeholder="請輸入電子信箱" />
+                      </div>
+                      <div class="form-group input-group">
+                        <span class="input-group-addon">
+                          <i class="fa fa-lock"  ></i>
+                        </span>
+                        <input type="password" class="form-control" placeholder="請輸入登入使用的密碼" />
+                      </div>
+                      <a href="#" class="btn btn-success ">立即註冊</a>
+                      <hr />
+                      已經有帳號密碼 ?  <a href="/auth/login" >點這裡登入</a>
+                      <br />
+                      <a href="/">回到「<%=appName %>」首頁</a>  
+                    </div>
+                  </form>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/assets/vendor/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
