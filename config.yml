@@ -1,2 +1,7 @@
 app:
   name: '毛小孩走失協尋系統'
+  port: 3003
+oracle:
+  user: 'group8'
+  password: 'Eightgroupad'
+  connectionstring: '140.117.79.132:1521/pdb4'

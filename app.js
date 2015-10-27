@@ -10,20 +10,32 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var config = require('./settings/auth.js');
-
+var http = require('http');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
 var admin = require('./routes/admin');
 var animals = require('./routes/animals');
 var utils = require('./settings/utils.js');
-// var config = utils.getConfig();
+var setting = utils.getConfig();
 
 var app = express();
+
+// var httpServer = http.Server(app);
+// httpServer.listen(setting.app.port, function(){
+//     console.log("server listening on port", setting.app.port);
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -51,7 +63,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({ secret: 'search pet', key: 'pets'}));
+// app.use(session({ secret: 'search pet', key: 'pets'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next){
@@ -61,7 +73,9 @@ app.use(function(req, res, next){
   };
   next();
 });
-// app.use(expressLayouts);
+app.use(expressLayouts);
+// app.set('layout', 'myLayout');
+
 // app.set('view options', {
 //   layout: false
 // });

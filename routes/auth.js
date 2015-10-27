@@ -6,12 +6,12 @@ var config = require('../settings/auth.js');
 
 //登入
 router.get('/login', function(req, res, next) {
-  res.render('auth/login', { user: req.user});
+  res.render('auth/login', { user: req.user , layout: 'layout/basic'});
 });
 
 //註冊
 router.get('/register', function(req, res, next) {
-  res.render('auth/register', { user: req.user });
+  res.render('auth/register', { user: req.user, layout: 'layout/basic' });
 });
 
 //基本資料維護
