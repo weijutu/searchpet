@@ -1,40 +1,93 @@
 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
   <h2 class="form-signin-heading">註冊</h2> 
-        <div class="panel panel-default">
-                            <div class="panel-heading">
-                        <strong>   註冊「毛小孩走失協尋」系統 </strong>  
-                            </div>
-                            <div class="panel-body">
-                                <form role="form">
-                                <a class="btn btn-block btn-social btn-lg btn-facebook" href="/auth/facebook">
-                        <i class="fa fa-facebook"></i> 使用 Facebook 註冊
-                      </a>
-                           <div style="text-align:center">or</div>
-                                     <div class="form-group input-group">
-                                            <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
-                                            <input type="text" class="form-control" placeholder="填入您的名稱" />
-                                        </div>
-                                         <div class="form-group input-group">
-                                            <span class="input-group-addon">@</span>
-                                            <input type="text" class="form-control" placeholder="請輸入電子信箱" />
-                                        </div>
-                                      <div class="form-group input-group">
-                                            <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
-                                            <input type="password" class="form-control" placeholder="請輸入密碼" />
-                                        </div>
-                                     <div class="form-group input-group">
-                                            <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
-                                            <input type="password" class="form-control" placeholder="再一次輸入密碼" />
-                                        </div>
-                                     
-                                     <a href="#" class="btn btn-success ">立即註冊</a>
-                                    <hr />
-                                    已經有帳號 ?  <a href="/auth/login" >點這裡登入系統</a> <br />
-                                    <a href="/" >回到 <%=appName %></a>
-                                    </form>
-                            </div>
-                           
-                        </div>
-                    </div>
-      
-    </div> <!-- /container -->
+    <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong>   註冊「<%=appName %>」系統 </strong>  
+          </div>
+          <div class="panel-body">
+            <form role="form" method="post" action="/auth/register">
+              <!-- <a class="btn btn-block btn-social btn-lg btn-facebook" href="/auth/facebook">
+                <i class="fa fa-facebook"></i> 使用 Facebook 註冊
+              </a> -->
+              <!-- <div style="text-align:center">or</div> -->
+                   <div class="form-group input-group">
+                          <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
+                          <input id="txtAccount" type="text" class="form-control" placeholder="填入您的帳號" name="username"  required="required" />
+                      </div>
+                      <div class="form-group input-group">
+                          <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
+                          <input id="txtPassword" type="password" class="form-control" placeholder="請輸入密碼" name="password" required="required" />
+                      </div>
+                       <div class="form-group input-group">
+                          <span class="input-group-addon">@</span>
+                          <input id="txtEmail" name="email" type="email" class="form-control" placeholder="請輸入電子信箱"  required="required"/>
+                      </div>
+                    <div class="form-group input-group">
+                          <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
+                          <input id="txtName" name="name" type="text" class="form-control" placeholder="請填入您的姓名" required="required" />
+                      </div>
+                       <div class="form-group input-group">
+                          <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
+                          <input id="txtTelphone" name="telphone" type="text" class="form-control" placeholder="請填寫您的電話號碼" />
+                      </div>
+                      <button type="submit" class="btn btn-warning btn-lg">Login</button>
+                   <!-- <a href="#" id="btnRegister" class="btn btn-success ">立即註冊</a> -->
+                  <hr />
+                  已經有帳號 ?  <a href="/auth/login" >點這裡登入系統</a> <br />
+                  <a href="/" >回到 <%=appName %></a>
+            </form>
+          </div>
+      </div>
+  </div>
+</div> 
+<div class="modal fade" id="dvRegisterSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">恭喜，您已經註冊成功</h4>
+      </div>
+      <div class="modal-body">
+        謝謝您註冊「<%=appName %>」，您可以回到登入頁面馬上登錄拾獲寵物的資料
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+    // var txtAccount = $("#txtAccount");
+    // var txtEmail = $("#txtEmail");
+    // var txtPassword = $("#txtPassword");
+    // var txtName = $("#txtName");
+    // var txtTelphone = $("#txtTelphone");
+
+    // $("#btnRegister").bind("click", function(){
+    //   var data = {
+    //     account: txtAccount.val().trim(),
+    //     email: txtEmail.val().trim(),
+    //     password: txtPassword.val().trim(),
+    //     name: txtName.val().trim(),
+    //     telphone: txtTelphone.val().trim()
+    //   };
+    //   console.log(data);
+    //   $.ajax({
+    //     url: '/auth/register',
+    //     method: 'post',
+    //     data: data
+    //   }).done(function(message){
+    //     console.debug(message);
+    //     $("div#dvRegisterSuccess").modal();
+        
+    //     txtAccount.val('');
+    //     txtEmail.val('');
+    //     txtPassword.val('');
+    //     txtName.val('');
+    //     txtTelphone.val('');
+    //   });
+    // });
+
+  });
+</script>

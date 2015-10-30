@@ -10,21 +10,20 @@ function role(r){
 }
 
 //取得角色列表 ok
-role.prototype.getRoles = function(){
+role.prototype.getRoles = function(callback){
 	oracledb.getConnection({
 	    user          : config.oracle.user, 
 	    password      : config.oracle.password,
 	    connectString : config.oracle.connectionstring
 	  },
 	  function(err, connection) {
-	  	console.log(connection);
 	    if (err) { console.error(err.message);  }
-	    connection.execute("select * from role", 
-	    	{}, 
-	    	{ outFormat: oracledb.OBJECT },
+	    connection.execute("select * from role", {}, { outFormat: oracledb.OBJECT },
 	    	function(err, result){
-	    	console.log('[getEntityById] result:', result);
-	    });
+	    		console.log('[getRoles] result:', result);
+	    		callback(err, result);
+	    	}
+	    );
 	});
 };
 

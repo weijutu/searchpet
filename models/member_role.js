@@ -22,7 +22,6 @@ member_role.prototype.getMembersAndRole = function(callback){
 	  function(err, connection) {
 	  	console.log(connection);
 	    if (err) { console.error(err.message);  }
-	    //connection.execute("select m.*, r.r_name from Member m, Role r where m.r_id = r.r_id;", 
 	    connection.execute("select m.*, r.r_name from Member m, Role r where m.r_id = r.r_id", 
 	    	{}, 
 	    	{ outFormat: oracledb.OBJECT }, 

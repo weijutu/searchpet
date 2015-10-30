@@ -23,7 +23,10 @@
 </table>
 <script type="text/javascript">
   $(function(){
-    $("#tblOffices").DataTable();
+    $("#tblOffices").DataTable( {
+      "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+      "pageLength": 25
+    });
   });
 
 </script>
