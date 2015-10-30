@@ -7,11 +7,9 @@ var config = utils.getConfig();
 var role = require('../models/role.js');
 var member = require('../models/member.js');
 var office = require('../models/office.js');
-var cases = require('../models/case.js');
-var component = require('../models/component.js');
-var picture = require('../models/picture.js');
 var opfn = require('../models/opfn.js');
 var jwt = require('jsonwebtoken');
+var cases = require('../models/case.js');
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated())
@@ -28,12 +26,38 @@ router.get('/', function(req, res, next) {
         layout: 'layout/index' 
     });
 });
-//團隊
-router.get('/team', isLoggedIn, function(req, res, next) {
-    res.render('team', { 
-        layout: 'layout.ejs', 
+
+router.get('/animals', function(req, res, next) {
+    var c = new cases({});
+    var animals; 
+    console.log('animals req.user?:', req.user); 
+    c.getCases(function(error, results){
+        animals = results;  
+        console.log('animals req.animals :', animals);
+        res.render('animals/animals', { 
+            layout: 'layout/main', 
+            animals: animals 
+        });
+    }); 
+});
+
+//團隊 
+router.get('/team', function(req, res, next) {
+    res.render('team', {  
+        // layout: 'layout.ejs', 
         user: req.user, 
         layout: 'layout/main' 
+    });
+});
+
+router.get('/test', function(req, res, next){
+    var c = new cases({});
+    var animals;
+    c.getCases(function(error, results){
+        // console.log('animals result:', results);
+        animals = results;
+        console.log('animals req.user:', animals);
+        res.json(animals);
     });
 });
 

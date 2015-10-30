@@ -68,7 +68,7 @@ member.prototype.getMemberByUsername = function(username, callback){
 };
 
 //透過會員編號取得會員資料
-member.prototype.getEntityById = function(m_id){
+member.prototype.getEntityById = function(m_id, callback){
 	console.log('m_id:', m_id);
 	oracledb.getConnection({
 	    user          : config.oracle.user, 
@@ -88,6 +88,7 @@ member.prototype.getEntityById = function(m_id){
 	    	}
 	    	console.log('result.rows:', result.rows);
 	    	console.log('[member getEntityById] result:', result);
+        callback(err, result);
 	    });
 	});
 };

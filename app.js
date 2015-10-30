@@ -59,7 +59,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({ 
     secret: 'searchpet',
-    cookie: {maxAge: 1000 * 60 * 5}
+    cookie: {maxAge: 1000 * 60 * 5},
+    resave: false,
+    saveUninitialized: true
 }));
 // app.use(session({
 //   secret: 'keyboard cat',

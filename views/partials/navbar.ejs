@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
-            <% if(user) { %>
+            <% if(typeof user !== 'undefined') { %>
                 <li><a href="/animals/pickup">拾獲動物登錄</a></li>
                 <li><a href="/auth/profile">基本資料維護</a></li>
             <% } %>
@@ -35,18 +35,13 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <% if(user) { %>
-                    <li>
-                        <a class="page-scroll" href="#"><%=user.ACCOUNT %></a>
-                    </li>
-                <% } %>
                 <li>
                     <a class="page-scroll" href="/team">關於團隊</a>
                 </li>
                 <li>
                     <a class="page-scroll" href="/animals">尋找我的毛小孩</a>
                 </li>
-                <% if(!user) { %>
+                <% if(typeof user === 'undefined') { %>
                     <li><a class="page-scroll" href="/auth/login">會員登入</a></li>
                     <li><a class="page-scroll" href="/auth/register">註冊</a></li>
                 <% } else { %>

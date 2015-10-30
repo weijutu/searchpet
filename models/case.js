@@ -23,7 +23,7 @@ function cases(c){
 }
 
 //取得 case 資料 ok
-cases.prototype.getCases = function(){
+cases.prototype.getCases = function(callback){
 	//e043b666-de30-46a2-8ae0-bd7aef1f1ece
 	//431d9446-c170-4c3d-8403-85efe5d73c00
 	//3a564f04-7030-4bab-baa1-1120fe5e60d1
@@ -41,6 +41,7 @@ cases.prototype.getCases = function(){
 	    		return;
 	    	}
 	    	console.log('result.rows:', result.rows);
+	    	callback(err, result.rows);
 	    	// console.log('office [getOffice] result:', result);
 	    });
 	});

@@ -208,6 +208,11 @@ passport.use('login', new LocalStrategy({
       if (!result) 
         return done(null, error);
 
+      // if (result.password != password) {
+      //   // return done(null, false);
+      //   return done(null, error);
+      // }
+ 
       return done(null, result.rows[0]);  
 
     });
@@ -219,13 +224,19 @@ passport.use('login', new LocalStrategy({
 // Passport session setup.
 passport.serializeUser(function(user, done) {
   console.log("session:" , user);
-  done(null, user);
+  return done(null, user.M_ID);
 });
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+passport.deserializeUser(function(M_ID, done) {
+  // done(null, obj);
+  var m = new member({});
+  m.getEntityById(M_ID, function(error, result){
+    console.log('deserializeUser error:', error);
+    console.log('deserializeUser result:', result);
+    return done(error, result);
+  });
 });
 
-
+ 
 function insertUser(user, cb) {
   console.log('insertUser:' ,user);
     oracledb.getConnection(
