@@ -20,10 +20,35 @@ member_role.prototype.getMembersAndRole = function(callback){
 	    connectString : config.oracle.connectionstring
 	  },
 	  function(err, connection) {
-	  	console.log(connection);
+	  	// console.log(connection);
 	    if (err) { console.error(err.message);  }
 	    connection.execute("select m.*, r.r_name from Member m, Role r where m.r_id = r.r_id", 
 	    	{}, 
+	    	{ outFormat: oracledb.OBJECT }, 
+	    	function(err, result){
+	    		if (err) {
+		    		console.error(err.message);
+		    		return;
+		    	}
+		    	// console.log('result.rows:', result.rows);
+	    		// console.log('member [getMembers] result:', result);
+	    		callback(err, result);
+	    	}
+	    );
+	});
+};
+
+member_role.prototype.getMembersAndRoleByMid = function(mid, callback){
+	oracledb.getConnection({
+	    user          : config.oracle.user, 
+	    password      : config.oracle.password,
+	    connectString : config.oracle.connectionstring
+	  },
+	  function(err, connection) {
+	  	// console.log(connection);
+	    if (err) { console.error(err.message);  }
+	    connection.execute("select m.*, r.r_name from Member m, Role r where m.r_id = r.r_id and m.m_id = :m_id", 
+	    	{ m_id: mid }, 
 	    	{ outFormat: oracledb.OBJECT }, 
 	    	function(err, result){
 	    		if (err) {

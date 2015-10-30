@@ -77,7 +77,7 @@ router.delete('/user', function(req, res, next){
 //基本資料維護
 router.get('/profile', isAuthenticated, function(req, res, next) {
   console.log('profile req.user:', req.user);
-  res.render('auth/profile', { user: req.user, layout: 'layout/main', title: '基本資料維護' });
+  res.render('auth/profile', { user: req.user.rows[0], layout: 'layout/main', title: '基本資料維護' });
 });
 
 //登出頁面, 回到首頁
@@ -191,13 +191,6 @@ passport.use('login', new LocalStrategy({
     var username = req.body.username;
     var password = req.body.password;
 
-    // console.log('req passport username:', username);
-    // console.log('req passport password:', password);
-
-    var user = {
-      username: username,
-      password: password
-    };
     var m = new member({});
     m.getMemberByUsername(username, function(error, result){
       console.log('getMemberByUsername1 result1:', result.rows[0]);
@@ -208,15 +201,13 @@ passport.use('login', new LocalStrategy({
       if (!result) 
         return done(null, error);
 
-      // if (result.password != password) {
-      //   // return done(null, false);
-      //   return done(null, error);
-      // }
+      if (result.rows[0].PASSWORD != password) {
+        return done(null, error);
+      }
  
       return done(null, result.rows[0]);  
 
     });
-    // return done(null, user);  
     
   }
 ));
@@ -230,8 +221,8 @@ passport.deserializeUser(function(M_ID, done) {
   // done(null, obj);
   var m = new member({});
   m.getEntityById(M_ID, function(error, result){
-    console.log('deserializeUser error:', error);
-    console.log('deserializeUser result:', result);
+    // console.log('deserializeUser error:', error);
+    // console.log('deserializeUser result:', result);
     return done(error, result);
   });
 });

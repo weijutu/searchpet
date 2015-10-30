@@ -13,14 +13,14 @@ function component(c){
 }
 
 //透過配件編號取得資料
-component.prototype.getEntityById = function(p_id){
+component.prototype.getEntityById = function(p_id, callback){
 	oracledb.getConnection({
 	    user          : config.oracle.user, 
 	    password      : config.oracle.password,
 	    connectString : config.oracle.connectionstring
 	  },
 	  function(err, connection) {
-	  	console.log(connection);
+	  	// console.log(connection);
 	    if (err) { console.error(err.message);  }
 	    connection.execute("select * from component where p_id=:p_id", 
 	    	{ p_id: p_id }, 
@@ -30,7 +30,8 @@ component.prototype.getEntityById = function(p_id){
 	    		console.error(err.message);
 	    		return;
 	    	}
-	    	console.log('result.rows:', result.rows);
+	    	console.log('[component] result.rows:', result.rows);
+	    	callback(err, result.rows);
 	    });
 	});
 };

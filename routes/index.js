@@ -10,6 +10,7 @@ var office = require('../models/office.js');
 var opfn = require('../models/opfn.js');
 var jwt = require('jsonwebtoken');
 var cases = require('../models/case.js');
+var picture =  require('../models/picture.js');
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated())
@@ -25,6 +26,27 @@ router.get('/', function(req, res, next) {
         user: req.user, 
         layout: 'layout/index' 
     });
+});
+
+router.get('/picture', function(req, res, next) {
+    // console.log('req.body home:', req.user);
+    var p = new picture({});
+    p.read("e043b666-de30-46a2-8ae0-bd7aef1f1ece", function(error, result){
+        console.log('result:', result);
+        res.json({ success: true });
+    });
+    
+});
+
+//待確認
+router.post('/picture', function(req, res, next) {
+    // console.log('req.body home:', req.user);
+    var p = new picture({});
+    p.insert(null, function(error, result){
+        console.log('result:', result);
+        res.json({ success: true });
+    });
+    
 });
 
 router.get('/animals', function(req, res, next) {

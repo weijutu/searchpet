@@ -20,13 +20,18 @@ function cases(c){
 	this.pickuptime = c.pickuptime;
 	this.location = c.location;
 	this.sheltertime = c.sheltertime;
+
+	this.m_id_1 = c.m_id_1;
+	this.r_id = c.r_id;
+	this.account = c.account;
+	this.password = c.password;
+	this.name = c.name;
+	this.email = c.email;
+	this.telphone = c.telphone;
 }
 
 //取得 case 資料 ok
 cases.prototype.getCases = function(callback){
-	//e043b666-de30-46a2-8ae0-bd7aef1f1ece
-	//431d9446-c170-4c3d-8403-85efe5d73c00
-	//3a564f04-7030-4bab-baa1-1120fe5e60d1
 	oracledb.getConnection({
 	    user          : config.oracle.user, 
 	    password      : config.oracle.password,
@@ -44,11 +49,36 @@ cases.prototype.getCases = function(callback){
 	    	callback(err, result.rows);
 	    	// console.log('office [getOffice] result:', result);
 	    });
-	});
+	}); 
+};
+
+cases.prototype.getCasesAndMemberByCaseId = function(p_id, callback){
+	oracledb.getConnection({
+	    user          : config.oracle.user, 
+	    password      : config.oracle.password,
+	    connectString : config.oracle.connectionstring
+	  },
+	  function(err, connection) {
+	  	// console.log(connection);
+	    if (err) { console.error(err.message);  return; }  
+	    connection.execute("select * from case c , member m where c.m_id = m.m_id and c.p_id = :p_id", 
+	    	{ p_id: p_id }, 
+	    	{ outFormat: oracledb.OBJECT },
+	    	function(err, result){
+	    		console.log('[getCasesAndMemberByCaseId] result.err:', err);
+		    	if (err) {
+		    		console.error(err.message);
+		    		return;
+		    	}
+		    	console.log('[getCasesAndMemberByCaseId] result.rows:', result.rows);
+		    	callback(err, result.rows);
+	    	// console.log('office [getOffice] result:', result);
+	    });
+	}); 
 };
 
 //透過案件編號取得資料
-cases.prototype.getEntityById = function(p_id){
+cases.prototype.getEntityById = function(p_id, callback){
 	oracledb.getConnection({
 	    user          : config.oracle.user, 
 	    password      : config.oracle.password,
@@ -66,6 +96,7 @@ cases.prototype.getEntityById = function(p_id){
 	    		return;
 	    	}
 	    	console.log('result.rows:', result.rows);
+	    	callback(err, result.rows);
 	    	// console.log('[case getEntityById] result:', result);
 
 	    	// fetchRowsFromRS(connection, result.outBinds.cursor, numRows);

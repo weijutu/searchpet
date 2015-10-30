@@ -18,13 +18,13 @@
            <div class="col-md-7">
              
                <div >
-                <h4><strong> 寵物性別:</strong> 母</h4>  
-                <h4><strong> 犬種:</strong> 馬爾濟斯</h4>  
-                <h4><strong> 顏色:</strong> 黑色</h4>  
-                <h4><strong> 晶片號碼: </strong>asdfasdfadfasdfaderyrh</h4>  
-                <h4><strong> 領回狀態 :</strong>帶走了</h4>  
-                <h4><strong> 拾獲時間 :</strong>2015-10-11 23:43</h4>  
-                <h4><strong> 拾獲地點 :</strong>高雄市鹽埕區</h4>  
+                <h4><strong> 寵物性別:</strong> <%=animals.GENDER  %></h4>  
+                <h4><strong> 犬種:</strong> <%=animals.VARIETY %></h4>  
+                <h4><strong> 顏色:</strong> <%=animals.COLOR %></h4>  
+                <h4><strong> 晶片號碼: </strong><%=animals.HASCHIP %></h4>  
+                <h4><strong> 領回狀態 :</strong><%=animals.BACK_STATUS %></h4>  
+                <h4><strong> 拾獲時間 :</strong><%=animals.PICKUPTIME %></h4>  
+                <h4><strong> 拾獲地點 :</strong><%=animals.LOCATION %></h4>  
                </div>
            </div>
        </div>
@@ -32,21 +32,41 @@
             <div class="col-md-6">
              <h3>其他特徵:</h3>  
                <hr />
-               <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                   Mauris ac nisl tempus, sollicitudin elit vel, pellentesque lorem. 
-                   Maecenas hendrerit laoreet lectus a feugiat. Nunc sodales id ipsum ut maximus. 
-                   Morbi pellentesque quis diam nec ullamcorper. Nulla facilisi. Donec non nunc augue. 
-                   Integer tincidunt consequat porta.
-               </p>
-
+               <table id="tblComponent" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <!-- <th>使用者編號</th> -->
+                        <!-- <th>機關構名稱</th> -->
+                        <th>配件種類</th>
+                        <th>配件顏色</th>
+                        <th>配件上註記名稱</th>
+                        <th>描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% animals.components.forEach(function(c){ %>
+                      <tr>
+                        <td><%=c.COMP_TYPE %></td>
+                        <td><%=c.COMP_COLOR %></td>
+                        <td><%=c.COMP_REMARK %></td>
+                        <td><%=c.DESCRIPTION %></td>
+                      </tr>
+                    <%  }); %>
+                </tbody>
+            </table>
            </div>
            <div class="col-md-6" style="padding-bottom:80px;">
               <h3>描述 :</h3> 
                <hr />
-               <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                   Mauris ac nisl tempus, sollicitudin elit vel, pellentesque lorem. 
-                   Maecenas hendrerit laoreet lectus a feugiat. Nunc sodales id ipsum ut maximus. 
-                   Morbi pellentesque </h5>  
+               <h5><%=animals.DESCRIPTION %></h5>  
            </div>
         </div>
+  <script type="text/javascript">
+  $(function(){
+    $("#tblComponent").DataTable( {
+      "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+      "pageLength": 25
+    });
+  });
+
+</script>

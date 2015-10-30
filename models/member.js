@@ -25,7 +25,7 @@ member.prototype.getMembers = function(){
 	    connectString : config.oracle.connectionstring
 	  },
 	  function(err, connection) {
-	  	console.log(connection);
+	  	// console.log(connection);
 	    if (err) { console.error(err.message);  }
 	    connection.execute("select * from member", 
 	    	{}, 
@@ -50,7 +50,7 @@ member.prototype.getMemberByUsername = function(username, callback){
       connectString : config.oracle.connectionstring
     },
     function(err, connection) {
-      console.log(connection);
+      // console.log(connection);
       if (err) { console.error(err.message);  }
       connection.execute("select * from member where account=:username", 
         { username: username }, 
@@ -69,14 +69,14 @@ member.prototype.getMemberByUsername = function(username, callback){
 
 //透過會員編號取得會員資料
 member.prototype.getEntityById = function(m_id, callback){
-	console.log('m_id:', m_id);
+	// console.log('m_id:', m_id);
 	oracledb.getConnection({
 	    user          : config.oracle.user, 
 	    password      : config.oracle.password,
 	    connectString : config.oracle.connectionstring
 	  },
 	  function(err, connection) {
-	  	console.log(connection);
+	  	// console.log(connection);
 	    if (err) { console.error(err.message);  }
 	    connection.execute("select * from member where m_id=:m_id", 
 	    	{ m_id: m_id }, 
@@ -86,7 +86,7 @@ member.prototype.getEntityById = function(m_id, callback){
 	    		console.error(err.message);
 	    		return;
 	    	}
-	    	console.log('result.rows:', result.rows);
+	    	// console.log('result.rows:', result.rows);
 	    	console.log('[member getEntityById] result:', result);
         callback(err, result);
 	    });
@@ -142,7 +142,7 @@ member.prototype.insert = function(user, cb){
             if (err) {
                 return cb(err);
             }
-      console.log('connection :', connection);
+      // console.log('connection :', connection);
           connection.execute(
               'insert into member ( ' +
               '   m_id, ' +
