@@ -58,7 +58,8 @@ router.get('/animals', function(req, res, next) {
         console.log('animals req.animals :', animals);
         res.render('animals/animals', { 
             layout: 'layout/main', 
-            animals: animals 
+            animals: animals,
+            user: req.user
         });
     }); 
 });

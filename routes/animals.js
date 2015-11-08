@@ -58,10 +58,11 @@ router.get('/detail/:id', function(req, res, next) {
 		}
 		var animals = result;
 		// res.json(result);
-		res.render('animals/view', { user: req.user, 
+		res.render('animals/view', { 
+			user: req.user, 
 			title: '阿狗詳細資料', 
 			layout: 'layout/main',
-			animals: animals  
+			animals: animals 
 		});
 	});
   	
