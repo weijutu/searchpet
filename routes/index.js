@@ -20,10 +20,11 @@ var isAuthenticated = function (req, res, next) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    console.log('req.body home:', req.user);
+    // console.log('req.body home:', req.user);
+    console.log('[index] req.session.user:', req.session.user);
   	res.render('index', { 
         title: 'index', 
-        user: req.user, 
+        user: req.session.user, 
         layout: 'layout/index' 
     });
 });

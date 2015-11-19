@@ -7,7 +7,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var config = require('./settings/auth.js');
 var http = require('http');
@@ -38,6 +37,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
+
 // app.use(session({
 //     secret: 'searchpet@isgood', 
 //     saveUninitialized: true, 
@@ -55,7 +55,9 @@ app.use(function(req, res, next){
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
+//app.use(bodyParser());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 app.use(session({ 
     secret: 'searchpet',
@@ -63,12 +65,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-// app.use(session({
-//   secret: 'keyboard cat',
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: { secure: true }
-// }));
+// app.use(express.methodOverride());
+// app.use(express.multipart());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next){
@@ -87,11 +85,9 @@ app.use('/auth', auth);
 app.use('/admin', admin);
 app.use('/animals', animals);
 
-
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error('找不到檔案');
   err.status = 404;
   next(err);
 });

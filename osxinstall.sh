@@ -13,8 +13,8 @@
 [ `uname -s` != "Darwin" ] && { echo "Error: This script only works on OS X" >& 2; exit 8; }
     
 # Set these to the location of your Instant Client 'basic' and 'sdk' packages
-IC_BASIC_ZIP=/opt/oracle/instantclient/instantclient11.2.0.4/instantclient-basic-macos.x64-11.2.0.4.0.zip
-IC_SDK_ZIP=/opt/oracle/instantclient/instantclient11.2.0.4/instantclient-sdk-macos.x64-11.2.0.4.0.zip
+IC_BASIC_ZIP=/opt/oracle/instantclient-basic-macos.x64-11.2.0.4.0.zip
+IC_SDK_ZIP=/opt/oracle/instantclient-sdk-macos.x64-11.2.0.4.0.zip
 
 [ ! -f $IC_BASIC_ZIP ] && { echo "Error: Cannot find $IC_BASIC_ZIP" >& 2; exit 1; }
 [ ! -f $IC_SDK_ZIP ] && { echo "Error: Cannot find $IC_SDK_ZIP" >& 2; exit 2; }

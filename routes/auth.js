@@ -20,32 +20,47 @@ var isAuthenticated = function (req, res, next) {
 //登入頁面
 router.get('/login', function(req, res, next) {
   console.log('get login:', req.success);
-  res.render('auth/login', { user: req.user , layout: 'layout/basic'});
+  res.render('auth/login', { user: req.user , 
+    layout: 'layout/basic'
+  });
 });
 
 //登入頁面送出
-router.post('/login', passport.authenticate('login', {
-  successRedirect: '/',
-  failureRedirect: '/auth/login'
-}));
-// router.post('/login', function(req, res, next){
-//   passport.authenticate('login', function(err, user, info){
-//     console.log('login erro:', err);
-//     console.log('login user:', user);
-//     console.log('login info:', info);
-//     if (err) { return next(err); }
-//     if (!user) {
-//       console.log('info:', info);
-//       return res.redirect('/');
-//       // return res.json(user);
-//       // return res.render('auth/login', { user: user, success: false , layout: 'layout/basic'});
-//       // return res.json(200, { user: user.id });
-//     }
-//     console.log('got user');
-//     // return res.json(200, { user: user });
-//     return res.redirect('/');
-//   })(req, res, next);
-// });
+// router.post('/login', passport.authenticate('login', {
+//   successRedirect: '/',
+//   failureRedirect: '/auth/login'
+// }));
+
+
+
+router.post('/login', function(req, res, next){
+  passport.authenticate('login', function(err, user, info){
+    console.log('login erro:', err);
+    console.log('login user:', user);
+    console.log('login info:', info);
+    if (err) { 
+      return next(err); 
+    }
+    if (!user) {
+      console.log('info:', info);
+      return res.render('auth/login', { 
+        success : false, message : info, layout: 'layout/basic'
+      });
+    }
+    console.log('got user');
+    
+    req.session.user = user;
+    console.log('req.session.user:', req.session.user);
+    //return res.redirect('/');
+    // return res.send({ success : true, message : 'authentication succeeded' });
+    return res.render('auth/login', { 
+        success : true,
+        message : info , 
+        user: req.session.user,
+        layout: 'layout/index'
+      });
+  })(req, res, next);
+});
 
 //===========註冊================
 //註冊頁面
@@ -74,8 +89,8 @@ router.delete('/user', function(req, res, next){
   });
 });
 
-//基本資料維護
-router.get('/profile', isAuthenticated, function(req, res, next) {
+//===========基本資料維護
+router.get('/profile', function(req, res, next) {
   console.log('profile req.user:', req.user);
   res.render('auth/profile', { user: req.user.rows[0], layout: 'layout/main', title: '基本資料維護' });
 });
@@ -86,39 +101,7 @@ router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
 });
-
-//註冊頁面 ok
-// router.post('/register', function(req, res, next){
-//     var body = req.body;
-//     var user = {
-//       m_id: uuid.v4(),
-//       r_id: '437643b0-ac9e-41bc-abd1-3706b0642000',
-//       account: body.account,
-//       password: body.password,
-//       name: body.name,
-//       email: body.email,
-//       telphone: body.telphone
-//     };
-//     console.log(user);
-//     insertUser(user, function(err, user) {
-//         var payload;
-//         if (err) { return next(err); }
-//         payload = {
-//             sub: user.email,
-//             telphone: user.telphone
-//         };
-
-//         res.status(200).json({
-//             user: user,
-//             token: jwt.sign(
-//               payload, 
-//               config.jwtSecretKey, 
-//               { expiresInMinutes: 60 }
-//             )
-//         });
-//     });
-// });
-
+//註冊
 passport.use('register', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField : 'username',
@@ -154,14 +137,6 @@ passport.use('register', new LocalStrategy({
                   telphone: user.telphone
               };
 
-              // res.status(200).json({
-              //     user: user,
-              //     token: jwt.sign(
-              //       payload, 
-              //       config.jwtSecretKey, 
-              //       { expiresInMinutes: 60 }
-              //     )
-              // });
               user.token = jwt.sign(
                 payload, 
                 config.jwtSecretKey, 
@@ -169,44 +144,35 @@ passport.use('register', new LocalStrategy({
               );
               return done(null, user);
           });
-
-
-           
         });
-
     })
 );
 
+//登入
 passport.use('login', new LocalStrategy({ 
     usernameField : 'username',
     passwordField : 'password',
     passReqToCallback: true
   }, function(req, username, password, done){
-
-    // console.log('passport username:', username);
-    // console.log('passport password:', password);
-
     if (!req.body) return res.json({ isError: true, error: 'no data' });
 
     var username = req.body.username;
     var password = req.body.password;
 
     var m = new member({});
-    m.getMemberByUsername(username, function(error, result){
-      console.log('getMemberByUsername1 result1:', result.rows[0]);
-      // console.log('getMemberByUsername error:', error);
-      if (error) 
-        return done(null, error);
-
-      if (!result) 
-        return done(null, error);
-
-      if (result.rows[0].PASSWORD != password) {
-        return done(null, error);
+    m.getMemberByUsername(username, function(error, user){
+      if (error)
+          return done(error);
+      if (!user){
+        console.log('找不到使用者:' + username);
+        return done(null, false, '您輸入的帳號或密碼錯誤');                 
       }
- 
-      return done(null, result.rows[0]);  
-
+      console.log('getMemberByUsername user:', user.rows[0]);
+      if (user.rows[0].PASSWORD != password){
+        console.log('您輸入的帳號或密碼錯誤');
+        return done(null, false, '您輸入的帳號或密碼錯誤');
+      }
+      return done(null, user);
     });
     
   }
@@ -214,16 +180,14 @@ passport.use('login', new LocalStrategy({
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
-  console.log("session:" , user);
-  return done(null, user.M_ID);
+  console.log("passport serializeUser:" , user);
+  return done(null, user);
 });
-passport.deserializeUser(function(M_ID, done) {
-  // done(null, obj);
+passport.deserializeUser(function(id, done) {
+  console.log("passport deserializeUser:" , id);
   var m = new member({});
-  m.getEntityById(M_ID, function(error, result){
-    // console.log('deserializeUser error:', error);
-    // console.log('deserializeUser result:', result);
-    return done(error, result);
+  m.getEntityById(id, function(error, user){
+    return done(error, user);
   });
 });
 

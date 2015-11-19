@@ -56,13 +56,18 @@ member.prototype.getMemberByUsername = function(username, callback){
         { username: username }, 
         { outFormat: oracledb.OBJECT },
         function(err, result){
-        if (err) {
-          console.error(err.message);
-          return;
-        }
-        // console.log('result.rows:', result.rows);
-        // console.log('[getMemberByUsername] result:', result);
-        callback(err, result);
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          if (result.rows != null && result.rows.length === 0)
+            callback(err, null);
+          else 
+            callback(err, result);
+          // console.log('getMemberByUsername:', result);
+          // console.log('result.rows:', result.rows);
+          // console.log('[getMemberByUsername] result:', result);
+          
       });
   });
 };

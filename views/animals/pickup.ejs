@@ -20,75 +20,48 @@
             </div>
         </div>
         <div class="row">
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="post" action="/animals/pickup">
                 <div class="form-group">
                     <label for="fileUploadImage" class="control-label col-xs-2">照片</label>
                     <div class="col-xs-10">
-                         <input id="fileUploadImage" type="file" class="file-loading" multiple data-show-upload="true" data-show-caption="true"  accept="image/*" />
-
+                         <input id="fileUploadImage" type="file" class="file-loading" multiple data-show-upload="true" data-show-caption="true"  accept="image/*" name="fileuploadimage" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="txtUserId" class="control-label col-xs-2">會員帳號</label>
+                    <input type="file" name="testimages"  />
+                </div>
+                <div class="form-group">
+                    <label for="txtAccount" class="control-label col-xs-2">會員帳號</label>
                     <div class="col-xs-10">
-                        <input type="text" class="form-control" id="txtUserId" placeholder="請輸入會員編號">
+                        <input type="text" class="form-control" id="txtAccount" name="txtAccount" value="weiju" placeholder="請輸入會員編號">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="rdogander" class="control-label col-xs-2">動物性別</label>
                     <div class="col-xs-10">
-                        <label class="radio-inline"><input type="radio" name="optradio">公</label>
-                        <label class="radio-inline"><input type="radio" name="optradio">母</label>
+                        <label class="radio-inline">
+                        <input type="radio" name="gender" value="m">公</label>
+                        <label class="radio-inline">
+                        <input type="radio" name="gender" value="f">母</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="txtUserId" class="control-label col-xs-2">動物類型</label>
+                    <label for="variety" class="control-label col-xs-2">動物類型</label>
                     <div class="col-xs-10">
-                        <input type="text" class="form-control" id="txtUserId" placeholder="">
+                        <input type="text" name="variety" class="form-control" id="variety" placeholder="">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="txtColor" class="control-label col-xs-2">顏色</label>
+                    <label for="color" class="control-label col-xs-2">顏色</label>
                     <div class="col-xs-10">
-                        <input type="text" class="form-control" id="txtUserId" placeholder="">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="txtColor" class="control-label col-xs-2">晶片號碼</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control" id="txtUserId" placeholder="">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="txtColor" class="control-label col-xs-2">拾獲地點</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control" id="txtUserId" placeholder="">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="txtColor" class="control-label col-xs-2">拾獲時間</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control" id="txtUserId" placeholder="">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="txtColor" class="control-label col-xs-2">其他特徵</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control" id="txtUserId" placeholder="">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="comment" class="control-label col-xs-2">描述:</label>
-                    <div class="col-xs-10">
-                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                        <input type="text" name="color" class="form-control" id="color" placeholder="">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-xs-offset-2 col-xs-10">
-                        <button type="submit" class="btn btn-primary">馬上貼文</button>
+                        <button type="submit" class="btn btn-warning btn-lg">馬上登入</button>
                     </div>
                 </div>
-                
             </form>
         </div>
     </div>

@@ -1,8 +1,5 @@
 $(function(){
-	// initialize with defaults
-	// $("#input-image-3").fileinput();
- 
-// with plugin options
+
 	$("#fileUploadImage").fileinput({
 		// showUpload: false,
 		uploadUrl: "/fileupload/",
