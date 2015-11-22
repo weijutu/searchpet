@@ -98,8 +98,14 @@ router.get('/profile', function(req, res, next) {
 //登出頁面, 回到首頁
 router.get('/logout', function(req, res) {
   console.log('logout');
-  req.logout();
-  res.redirect('/');
+  // req.session.user = null;
+  // req.logout();
+  // res.redirect('/');
+
+  req.session.destroy(function (err) {
+    req.logout();
+    res.redirect('/');
+  });
 });
 //註冊
 passport.use('register', new LocalStrategy({
@@ -131,7 +137,10 @@ passport.use('register', new LocalStrategy({
           console.log(user);
           insertUser(user, function(err, user) {
               var payload;
-              if (err) { return next(err); }
+              if (err) { 
+                //return next(err); 
+                return done(null, user);
+              }
               payload = {
                   sub: user.email,
                   telphone: user.telphone

@@ -3,6 +3,7 @@ var router = express.Router();
 var member_role = require('../models/member_role.js');
 var office_role = require('../models/office_role.js');
 var role = require('../models/role.js');
+var cases = require('../models/case.js');
 
 //管理：總覽
 router.get('/', function(req, res, next) {
@@ -22,6 +23,21 @@ router.get('/', function(req, res, next) {
 			overview: {
 				memberCount: memberCount || 0
 			}
+		});
+	});
+});
+
+//管理：案件
+router.get('/animals', function(req, res, next) {
+	var c = new cases({});
+	c.getCases(function(error, data){
+		console.log('animals:', data);
+		res.render('admin/animals', { 
+	  		user: req.user, 
+	  		animals: data,
+	  		layout: 'admin/layout/layout', 
+	  		title: '拾獲毛小孩列表',
+			subtitle: '呈現所有走失的毛小孩' 
 		});
 	});
 });
@@ -67,8 +83,6 @@ router.get('/offices', function(req, res, next) {
 			subtitle: '呈現所有的機關構' 
 		});
 	});
-	
-  
 });
 
 

@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">找到的毛小孩列表
+            <small>貼的文章</small>
+        </h2>
+    </div>
+</div>
+<ol class="breadcrumb">
+  <li><a href="/">首頁</a></li>
+  <li><a href="/animals">尋找毛小孩</a></li>
+</ol>
+<div class="row">
+    <a href="/animals/pickup" class="btn btn-primary">我有拾獲毛小孩 馬上登錄</a>
+</div>
+<div class="row" style="margin-top:20px">
+   <table id="tblAnimals" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>寵物品種</th>
+                <th>是否有晶片</th>
+                <th>寵物性別</th>
+                <th>顏色</th>
+                <th>特徵</th>
+                <th>領回狀態</th>
+                <th>編輯詳細</th>
+                <th>刪除</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% animals.forEach(function(entity){ %>
+              <tr>
+                <td><%=entity.VARIETY %></td>
+                <td><%=entity.HASCHIP %></td>
+                <td><%=entity.GENDER %></td>
+                <td><%=entity.COLOR %></td>
+                <td><%=entity.LOCATION %></td>
+                <td><%=entity.BACK_STATUS %></td>
+                <td><a class="btnEdit btn btn-primary" href="/animals/pickup/<%=entity.P_ID %>" data-name="<%=entity.VARIETY %>" data-id="<%=entity.P_ID %>">
+                    編輯
+                </a>
+                <td><a class="btnDelete btn btn-danger" data-name="<%=entity.VARIETY %>" data-id="<%=entity.P_ID %>">
+                    刪除
+                </a>
+                </td>
+              </tr>
+            <%  }); %>
+        </tbody>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="dvCheckDelete" tabindex="-1" role="dialog" aria-labelledby="checkDeleteLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="checkDeleteLabel">請確認刪除</h4>
+      </div>
+      <div class="modal-body">
+        您是否刪除此筆案件：<span class="lblCase"></span>
+        <input type="hidden" id="hidPId" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+        <a class="btn btn-danger btnConfirmDelete">
+            確認刪除
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="dvDeleteSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">刪除成功</h4>
+      </div>
+      <div class="modal-body">
+        你已經將 <span calss="lbldeleteCase"></span> 刪除
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+ <script type="text/javascript">
+     $(function(){
+        $("a.btnDelete").on('click', function(){
+            var mid = $(this).attr("data-id");
+            var name = $(this).attr("data-name");
+            $("#hidPId").val(mid);
+            console.log('delete name:', name);
+            $("span.lblCase").text(name);
+
+            $("div#dvCheckDelete").modal();
+        });
+        $("a.btnConfirmDelete").on('click', function(){
+            var hidPId = $("#hidPId");
+            if(!hidPId.val()) {
+                alert("抱歉, 您尚未選擇案件");
+            }
+            var data = {  pId: hidPId.val() };
+            $.ajax({
+                url: "/animals/pickup",
+                method: "delete",
+                 data: data
+            }).done(function(result){
+                console.log('/animals/pickup: [result] ', result);
+                console.log('/animals/pickup: [error] ', result.error);
+                if (result.error) {
+                    
+                } else {
+                    //if(result.rowsAffected > 0) {
+                    $('div#dvCheckDelete').modal('hide');
+                    $("div#dvDeleteSuccess").modal();
+                    $("span.lbldeleteCase").text(hidPId.val());
+                    //}
+                }
+            });
+        });
+        $('div#dvDeleteSuccess').on('hidden.bs.modal', function (e) {
+            location.href = "/animals/console";
+        });
+     });
+</script>
+<script type="text/javascript">
+  $(function(){
+    $("#tblAnimals").DataTable( {
+      "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+      "pageLength": 25
+    });
+    
+  });
+
+</script>
+<!-- /.row -->

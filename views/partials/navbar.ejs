@@ -14,8 +14,12 @@
           <ul class="nav navbar-nav">
             <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
             <% if(typeof user !== 'undefined') { %>
-                <li><a href="/animals/pickup">拾獲動物登錄</a></li>
-                <li><a href="/auth/profile">基本資料維護</a></li>
+                <li><a href="/animals/console">控制台</a></li>
+                <!-- <li><a href="/animals/pickup">拾獲動物登錄</a></li> -->
+                <!-- <li><a href="/auth/profile">基本資料維護</a></li> -->
+                <% console.log('account:', user); if(user.rows[0].ACCOUNT === 'admin') { %>
+                    <li><a href="/admin">管理平台</a></li>
+                <% } %>
             <% } %>
            
             <!-- <li class="dropdown">
@@ -35,6 +39,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+                <% if(typeof user !== 'undefined') { %>
+                        <li><a href="#">您好, <%=user.rows[0].ACCOUNT %></a></li>
+                <% } %>
                 <li>
                     <a class="page-scroll" href="/team">關於團隊</a>
                 </li>

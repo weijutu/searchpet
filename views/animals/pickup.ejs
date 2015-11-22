@@ -20,56 +20,136 @@
             </div>
         </div>
         <div class="row">
-            <form class="form-horizontal" method="post" action="/animals/pickup">
-                <div class="form-group">
-                    <label for="fileUploadImage" class="control-label col-xs-2">照片</label>
-                    <div class="col-xs-10">
-                         <input id="fileUploadImage" type="file" class="file-loading" multiple data-show-upload="true" data-show-caption="true"  accept="image/*" name="fileuploadimage" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="file" name="testimages"  />
-                </div>
-                <div class="form-group">
-                    <label for="txtAccount" class="control-label col-xs-2">會員帳號</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control" id="txtAccount" name="txtAccount" value="weiju" placeholder="請輸入會員編號">
-                    </div>
-                </div>
+            <a href="/animals/console" class="btn btn-primary">回到拾獲毛小孩列表</a>
+        </div>
+        <div class="row">
+            <form class="form-horizontal" method="post" 
+    <% if (entity != null) {%>
+        action="/animals/update/<%=entity.P_ID %>"
+    <% } else { %>
+        action="/animals/pickup"
+    <% } %>
+            >
+                
                 <div class="form-group">
                     <label for="rdogander" class="control-label col-xs-2">動物性別</label>
                     <div class="col-xs-10">
                         <label class="radio-inline">
-                        <input type="radio" name="gender" value="m">公</label>
+                        <input type="radio" name="gender" value="m" required>公</label>
                         <label class="radio-inline">
-                        <input type="radio" name="gender" value="f">母</label>
+                        <input type="radio" name="gender" value="f" required>母</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="variety" class="control-label col-xs-2">動物類型</label>
                     <div class="col-xs-10">
-                        <input type="text" name="variety" class="form-control" id="variety" placeholder="">
+                        <input type="text" name="variety" class="form-control" id="variety" placeholder="例如：博美 杜賓狗 土狗 哈士奇" value="<% if (entity != null) {%><%=entity.VARIETY %><%}%>" required />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="color" class="control-label col-xs-2">顏色</label>
                     <div class="col-xs-10">
-                        <input type="text" name="color" class="form-control" id="color" placeholder="">
+                        <input type="text" name="color" class="form-control" id="color" placeholder="例如：棕色、白色、黑色且有白色斑點" value="<% if (entity != null) {%><%=entity.COLOR %><%}%>" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="haschip" class="control-label col-xs-2">是否有晶片</label>
+                    <div class="col-xs-10">
+                        <input type="checkbox" name="haschip" class="form-control" id="haschip" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pickuptime" class="control-label col-xs-2">拾獲時間</label>
+                    <div class="col-xs-10">
+                        <input type="date" name="pickuptime" class="form-control" id="pickuptime" placeholder="格式 yyyy-MM-dd" value="2015-10-09 12:23:33" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="control-label col-xs-2">描述</label>
+                    <div class="col-xs-10">
+                        <input type="text" name="description" class="form-control" id="description" placeholder="" value="<% if (entity != null) {%><%=entity.DESCRIPTION %><%}%>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="location" class="control-label col-xs-2">拾獲地點</label>
+                    <div class="col-xs-10">
+                        <input type="text" name="location" class="form-control" id="location" placeholder="例如：高雄市鹽埕區" value="<% if (entity != null) {%><%=entity.LOCATION %><%}%>" required />
+                    </div>
+                </div>
+                <hr />
+                <h2>配件資訊</h2>
+                <div class="form-group">
+                    <label for="comp_type" class="control-label col-xs-2">配件種類</label>
+                    <div class="col-xs-10">
+                        <input type="text" name="comp_type" class="form-control" id="comp_type" placeholder="例如：項圈" value="<% if (entity != null) {%><%=entity.comp_type %><%}%>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comp_color" class="control-label col-xs-2">配件顏色</label>
+                    <div class="col-xs-10">
+                        <input type="text" name="comp_color" class="form-control" id="comp_color" placeholder="紅色" value="<% if (entity != null) {%><%=entity.comp_color %><%}%>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comp_remark" class="control-label col-xs-2">配件上註記名稱</label>
+                    <div class="col-xs-10">
+                        <input type="text" name="comp_remark" class="form-control" id="comp_remark" placeholder="配件上有寫名字嗎" value="<% if (entity != null) {%><%=entity.comp_remark %><%}%>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comp_description" class="control-label col-xs-2">配件描述</label>
+                    <div class="col-xs-10">
+                        <input type="text" name="comp_description" class="form-control" id="comp_description" placeholder="配件描述" value="<% if (entity != null) {%><%=entity.comp_description %><%}%>" />
+                    </div>
+                </div>
+                <hr />
+                <div style="display:none;">
+                    <h2>毛小孩照片</h2>
+                    <div class="form-group" style="display:none;">
+                        <label for="fileUploadImage" class="control-label col-xs-2">照片</label>
+                        <div class="col-xs-10">
+                             <input id="fileUploadImage" type="file" class="file-loading" multiple data-show-upload="true" data-show-caption="true"  accept="image/*" name="fileuploadimage" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="animalsImg1" class="control-label col-xs-2">照片 #1：</label>
+                        <div class="col-xs-10">
+                            <input type="file" name="animalsImg1" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="animalsImg2" class="control-label col-xs-2">照片 #2：</label>
+                        <div class="col-xs-10">
+                            <input type="file" name="animalsImg2"  />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="animalsImg3" class="control-label col-xs-2">照片 #3：</label>
+                        <div class="col-xs-10">
+                            <input type="file" name="animalsImg3"  />
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-xs-offset-2 col-xs-10">
-                        <button type="submit" class="btn btn-warning btn-lg">馬上登入</button>
+                    <% if (entity != null) {%>
+                    <button type="submit" class="btn btn-warning">更新登陸資料</button>
+                    <%} else { %>
+                        <button type="submit" class="btn btn-warning">拾獲登陸資料</button>
+                    <%} %>
+                        
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
     <script src="/assets/vendor/js/jquery.js"></script>
     <script src="/assets/vendor/js/bootstrap.min.js"></script>
      <script src="/assets/vendor/bootstrap-fileinput/js/plugins/canvas-to-blob.js"></script>
     <script src="/assets/vendor/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
      <script src="/javascripts/pages/pickup.js" type="text/javascript"></script>
+
 </body>
 
 </html>

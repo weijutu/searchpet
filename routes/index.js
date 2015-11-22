@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
+
 router.get('/picture', function(req, res, next) {
     // console.log('req.body home:', req.user);
     var p = new picture({});
@@ -50,20 +51,7 @@ router.post('/picture', function(req, res, next) {
     
 });
 
-router.get('/animals', function(req, res, next) {
-    var c = new cases({});
-    var animals; 
-    console.log('animals req.user?:', req.user); 
-    c.getCases(function(error, results){
-        animals = results;  
-        console.log('animals req.animals :', animals);
-        res.render('animals/animals', { 
-            layout: 'layout/main', 
-            animals: animals,
-            user: req.user
-        });
-    }); 
-});
+
 
 //團隊 
 router.get('/team', function(req, res, next) {
